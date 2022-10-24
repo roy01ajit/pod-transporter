@@ -40,6 +40,7 @@ func GenerateClientSet(cfg *rest.Config) kubernetes.Interface {
 func ListPods(ctx context.Context, cs kubernetes.Interface, namespace string, listOptions metav1.ListOptions) (*v1.PodList, error) {
 	pods, err := cs.CoreV1().Pods(namespace).List(ctx, listOptions)
 	if err != nil {
+		log.Printf("error in getting pods for namespace %s err: %v", namespace, err)
 		return nil, err
 	}
 	return pods, nil

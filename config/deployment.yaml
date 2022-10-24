@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-transporter
+  namespace: default
+  labels:
+    app: pod-transporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-transporter
+  template:
+    metadata:
+      labels:
+        app: pod-transporter
+    spec:
+      containers:
+        - name: pod-transporter
+          image: pod-transporter:v1.1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pod-transporter-service
+  namespace: default
+  labels:
+    app: pod-transporter
+spec:
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+      nodePort: 32138
+  selector:
+    app: pod-transporter
+
+
+
